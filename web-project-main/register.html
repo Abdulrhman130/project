@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="registerandlogin.css">
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="card">
+
+            <div class="title">Create Account</div>
+
+            <div class="field">
+                <label>Email</label>
+                <input id="regEmail" type="email" placeholder="Enter email">
+                <div id="emailError" class="error" style="display:none;">Invalid Email</div>
+            </div>
+
+            <div class="field field-password">
+                <label>Password</label>
+                <input id="regPass" type="password" placeholder="Enter password">
+                <div id="passHint" class="hint details">
+                    Must contain:<br>
+                    • Uppercase<br>
+                    • Lowercase<br>
+                    • Number<br>
+                    • Symbol<br>
+                    • 8+ chars
+                </div>
+                <div id="passError" class="error" style="display:none;">Password not valid</div>
+            </div>
+
+
+
+            <button class="btn" onclick="register()">Create Account</button>
+
+            <div class="hint">
+                Already have an account?
+                <a href="login.html">Login</a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function validateEmail(e) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+        }
+        function validatePass(p) {
+            return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(p);
+        }
+
+        const regPass = document.getElementById("regPass");
+        const passHint = document.getElementById("passHint");
+        const passError = document.getElementById("passError");
+
+        // إظهار الـ hint لما يضغط على الحقل
+        regPass.addEventListener("focus", () => {
+            passHint.style.display = "block";
+        });
+
+        // إخفاء الـ hint لما يخرج من الحقل
+        regPass.addEventListener("blur", () => {
+            passHint.style.display = "none";
+        });
+
+        // تحقق مباشر عند الكتابة (اختياري)
+        regPass.addEventListener("input", () => {
+            const pass = regPass.value.trim();
+            const valid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(pass);
+            passError.style.display = valid ? "none" : "block";
+        });
+        function register() {
+            const email = document.getElementById("regEmail").value.trim();
+            const pass = document.getElementById("regPass").value.trim();
+
+            // تحقق من الإيميل
+            const emailValid = validateEmail(email);
+            document.getElementById("emailError").style.display = emailValid ? "none" : "block";
+
+            // تحقق من الباسورد
+            const passValid = validatePass(pass);
+            document.getElementById("passError").style.display = passValid ? "none" : "block";
+
+            // لو فيه خطأ، توقف هنا
+            if (!emailValid || !passValid) return;
+
+            // تخزين البيانات في localStorage
+            localStorage.setItem("userEmail", email);
+            localStorage.setItem("userPass", pass);
+
+            // تحويل المستخدم مباشرة لصفحة تسجيل الدخول
+            window.location.href = "login.html";
+        }
+
+    </script>
+
+</body>
+
+</html>

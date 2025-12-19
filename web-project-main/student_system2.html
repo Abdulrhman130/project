@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduTrack Pro - Management System</title>
+    <!-- logo -->
+    <link rel="icon" type="image/png" href="images/college_logo.jpg" />
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <!-- Sidebar (Now Dark and Professional with Text Brand) -->
+    <aside class="sidebar">
+        <div class="brand">
+            <h4 class="text-white fw-bold mb-0">EduTrack Pro</h4>
+            <small class="text-primary fw-bold">Management</small>
+        </div>
+
+        <nav class="nav flex-column">
+            <!-- Data-view attribute is used by JS router -->
+            <a class="nav-link" data-view="students">
+                <i class="fa-solid fa-users"></i>
+                <span>Student Roster</span>
+            </a>
+            <a class="nav-link" data-view="courses">
+                <i class="fa-solid fa-book"></i>
+                <span>Course Modules</span>
+            </a>
+            <a class="nav-link" data-view="attendance">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Daily Attendance</span>
+            </a>
+            <a class="nav-link" data-view="reports">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>System Reports</span>
+            </a>
+            <a class="nav-link" data-view="about">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>About</span>
+            </a>
+            <a class="nav-link" data-view="contact">
+                <i class="fa-solid fa-envelope"></i>
+                <span>Contact</span>
+            </a>
+        </nav>
+
+        <div class="mt-auto text-center p-3">
+            <small class="text-white-50" style="font-size: 0.7rem;">v2.1 Professional</small>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Logo Container -->
+        <div class="main-logo-container">
+
+            <div class="d-flex justify-content-center align-items-center gap-4">
+                <!-- College Logo -->
+                <img class="college-logo" src="images/college_logo.jpg" alt="College Logo" />
+
+                <!-- University Logo -->
+                <img class="uni-logo" src="images/uni_logo.jpg" alt="University Mark" />
+            </div>
+        </div>
+
+        <!-- Header / Stats (Static, remains visible) -->
+        <div class="row g-4 mb-5">
+            <!-- Stats Cards with hover added via CSS -->
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-icon bg-primary-subtle text-primary">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-0">Total Students</h6>
+                        <h3 class="fw-bold mb-0" id="stat-total-students">0</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-icon bg-success-subtle text-success">
+                        <i class="fa-solid fa-check-circle"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-0">Today's Attendance</h6>
+                        <h3 class="fw-bold mb-0" id="stat-attendance-today">0</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-icon bg-warning-subtle text-warning">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-0">Fees Pending</h6>
+                        <h3 class="fw-bold mb-0" id="stat-fees-pending">0</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--  (Dynamic Content Container) -->
+        <div class="views-wrapper">
+
+            <!-- ==================== STUDENTS VIEW ==================== -->
+            <div id="view-students" class="content-section" data-section="students">
+
+                <!-- Add Student Panel -->
+                <div class="glass-panel">
+                    <div class="section-header">
+                        <span class="section-title">New Admission / Student Edit</span>
+                        <button class="btn btn-light btn-sm rounded-circle collapse-toggle" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#studentFormCollapse">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                    </div>
+
+                    <form id="student-form" class="collapse show needs-validation" novalidate>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" id="studentID" placeholder="ID" required>
+                                    <label for="studentID">Student ID</label>
+                                    <div class="invalid-feedback">Student ID is required.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="studentName" placeholder="Name"
+                                        required>
+                                    <label for="studentName">Full Name</label>
+                                    <div class="invalid-feedback">Full Name is required.</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" id="studentAge" placeholder="Age" min="18"
+                                        max="100">
+                                    <label for="studentAge">Age</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    <select class="form-select" id="studentDepartment">
+                                        <option value="CS">Computer Science</option>
+                                        <option value="IT">Information Tech</option>
+                                        <option value="IS">Information Systems</option>
+                                        <option value="AI">Artificial Intelligence</option>
+                                    </select>
+                                    <label for="studentDepartment">Department</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <select class="form-select" id="studentGrade">
+                                        <option value="A+">A+</option>
+                                        <option value="A">A</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                        <option value="D">D</option>
+                                        <option value="F">F</option>
+                                    </select>
+                                    <label for="studentGrade">Grade</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <select class="form-select" id="studentYear">
+                                        <option value="1">1st Year</option>
+                                        <option value="2">2nd Year</option>
+                                        <option value="3">3rd Year</option>
+                                        <option value="4">4th Year</option>
+                                    </select>
+                                    <label for="studentYear">Year</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-center">
+                                <div class="form-check ps-4">
+                                    <input class="form-check-input" type="checkbox" id="studentFee"
+                                        style="transform: scale(1.3);">
+                                    <label class="form-check-label ms-2 fw-bold text-secondary" for="studentFee">Fees
+                                        Paid</label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-3 text-end">
+                                <button id="addBtn" class="btn btn-primary px-4 py-2 rounded-pill fw-bold shadow-sm"
+                                    type="submit">
+                                    <i class="fa-solid fa-plus me-2"></i> Add Student
+                                </button>
+                                <button id="updateBtn"
+                                    class="btn btn-warning px-4 py-2 rounded-pill fw-bold shadow-sm d-none"
+                                    type="button">
+                                    <i class="fa-solid fa-check me-2"></i> Update
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- List Section -->
+                <div class="d-flex justify-content-between align-items-center mb-4 directory-header">
+                    <h4 class="mb-0 fw-bold text-secondary">Student Directory</h4>
+                    <div style="width: 100%; max-width: 320px;">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass text-muted"></i>
+                            <input type="text" id="search" placeholder="Search by name or ID..."
+                                oninput="searchStudent(this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="student-container" class="row g-4">
+                    <!-- Student Cards injected here with hover support -->
+                </div>
+            </div>
+
+            <!-- == COURSES VIEW = -->
+            <div id="view-courses" class="content-section" data-section="courses">
+                <div class="glass-panel text-center py-5">
+                    <div class="alert alert-info d-inline-flex align-items-center py-2 px-4 rounded-pill mb-4"
+                        role="alert">
+                        <i class="fa-solid fa-cogs me-2"></i>
+                        Module Under Development
+                    </div>
+                    <h4 class="fw-bold text-dark">Course Management System (v3.0)</h4>
+                    <p class="text-muted mb-0">This section will handle curriculum mapping, course enrollment, and
+                        detailed grade book tracking. Stay tuned!</p>
+                </div>
+            </div>
+
+            <!-- ==================== REPORTS VIEW ==================== -->
+            <div id="view-reports" class="content-section" data-section="reports">
+
+                <!-- Reports Header -->
+                <div class="glass-panel mb-4 report-header">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h4 class="fw-bold text-white mb-1">
+                                <i class="fa-solid fa-chart-pie me-2"></i>
+                                System Reports
+                            </h4>
+                            <p class="text-white-50 mb-0 small">Quick overview of system statistics</p>
+                        </div>
+                        <div class="text-white-50">
+                            <i class="fa-solid fa-chart-line fa-2x opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-lg-3">
+                        <div class="glass-panel text-center py-4 report-stat-card primary">
+                            <i class="fa-solid fa-users text-primary fa-2x mb-2"></i>
+                            <h2 class="fw-bold mb-0" id="report-total-students">0</h2>
+                            <small class="text-muted">Total Students</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="glass-panel text-center py-4 report-stat-card success">
+                            <i class="fa-solid fa-check-circle text-success fa-2x mb-2"></i>
+                            <h2 class="fw-bold mb-0" id="report-fees-paid">0</h2>
+                            <small class="text-muted">Fees Paid</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="glass-panel text-center py-4 report-stat-card danger">
+                            <i class="fa-solid fa-exclamation-circle text-danger fa-2x mb-2"></i>
+                            <h2 class="fw-bold mb-0" id="report-fees-pending">0</h2>
+                            <small class="text-muted">Fees Pending</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="glass-panel text-center py-4 report-stat-card info">
+                            <i class="fa-solid fa-calendar-check text-info fa-2x mb-2"></i>
+                            <h2 class="fw-bold mb-0" id="report-attendance-records">0</h2>
+                            <small class="text-muted">Attendance Records</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Cards -->
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="glass-panel h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="rounded-circle bg-success-subtle p-2 me-2">
+                                    <i class="fa-solid fa-clipboard-list text-success"></i>
+                                </div>
+                                <h6 class="fw-bold mb-0">Attendance Summary</h6>
+                            </div>
+                            <div class="d-flex justify-content-around text-center pt-2">
+                                <div>
+                                    <div
+                                        class="rounded-circle bg-success-subtle mx-auto mb-2 d-flex align-items-center justify-content-center report-circle">
+                                        <span class="fw-bold text-success" id="report-present">0</span>
+                                    </div>
+                                    <small class="text-muted">Present</small>
+                                </div>
+                                <div>
+                                    <div
+                                        class="rounded-circle bg-warning-subtle mx-auto mb-2 d-flex align-items-center justify-content-center report-circle">
+                                        <span class="fw-bold text-warning" id="report-late">0</span>
+                                    </div>
+                                    <small class="text-muted">Late</small>
+                                </div>
+                                <div>
+                                    <div
+                                        class="rounded-circle bg-danger-subtle mx-auto mb-2 d-flex align-items-center justify-content-center report-circle">
+                                        <span class="fw-bold text-danger" id="report-absent">0</span>
+                                    </div>
+                                    <small class="text-muted">Absent</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="glass-panel h-100">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="rounded-circle bg-primary-subtle p-2 me-2">
+                                    <i class="fa-solid fa-building-columns text-primary"></i>
+                                </div>
+                                <h6 class="fw-bold mb-0">By Department</h6>
+                            </div>
+                            <div class="d-flex justify-content-around text-center pt-2">
+                                <div>
+                                    <div
+                                        class="rounded-circle bg-primary-subtle mx-auto mb-2 d-flex align-items-center justify-content-center report-circle">
+                                        <span class="fw-bold text-primary" id="report-cs">0</span>
+                                    </div>
+                                    <small class="text-muted">CS</small>
+                                </div>
+                                <div>
+                                    <div
+                                        class="rounded-circle bg-info-subtle mx-auto mb-2 d-flex align-items-center justify-content-center report-circle">
+                                        <span class="fw-bold text-info" id="report-it">0</span>
+                                    </div>
+                                    <small class="text-muted">IT</small>
+                                </div>
+                                <div>
+                                    <div
+                                        class="rounded-circle bg-secondary-subtle mx-auto mb-2 d-flex align-items-center justify-content-center report-circle">
+                                        <span class="fw-bold text-secondary" id="report-is">0</span>
+                                    </div>
+                                    <small class="text-muted">IS</small>
+                                </div>
+                                <div>
+                                    <div
+                                        class="rounded-circle bg-dark-subtle mx-auto mb-2 d-flex align-items-center justify-content-center report-circle">
+                                        <span class="fw-bold text-dark" id="report-ai">0</span>
+                                    </div>
+                                    <small class="text-muted">AI</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== ATTENDANCE VIEW ==================== -->
+            <div id="view-attendance" class="content-section" data-section="attendance">
+                <div class="row g-4">
+                    <!-- Attendance Form -->
+                    <div class="col-lg-4">
+                        <div class="glass-panel h-100">
+                            <div class="section-title mb-4">Record Daily Attendance</div>
+
+                            <div class="mb-3">
+
+                                <label for="attendance-student" class="form-label text-muted small fw-bold">Select
+                                    Student</label>
+                                <select id="attendance-student" class="form-select form-select-lg" required>
+                                    <option value="" selected disabled>Choose student...</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="attendance-date" class="form-label text-muted small fw-bold">Date</label>
+                                <input type="date" id="attendance-date" class="form-control form-control-lg" required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label text-muted small fw-bold">Status</label>
+                                <div class="d-flex gap-2">
+                                    <input type="radio" class="btn-check" name="status" id="status-present"
+                                        value="Present" checked>
+                                    <label class="btn btn-outline-success flex-fill"
+                                        for="status-present">Present</label>
+
+                                    <input type="radio" class="btn-check" name="status" id="status-late" value="Late">
+                                    <label class="btn btn-outline-warning flex-fill" for="status-late">Late</label>
+
+                                    <input type="radio" class="btn-check" name="status" id="status-absent"
+                                        value="Absent">
+                                    <label class="btn btn-outline-danger flex-fill" for="status-absent">Absent</label>
+                                </div>
+                            </div>
+
+                            <button id="btn-mark" class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow-sm"
+                                type="button">
+                                Submit Record
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Attendance Log -->
+                    <div class="col-lg-8">
+                        <div class="glass-panel h-100">
+                            <div class="section-title mb-4">Attendance History</div>
+                            <div class="table-responsive">
+                                <table class="custom-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Student Name / ID</th>
+                                            <th>Date Recorded</th>
+                                            <th>Status</th>
+                                            <th class="text-end">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="attendance-table">
+                                        <!-- Rows injected via JS with hover support -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ==================== ABOUT VIEW ==================== -->
+            <div id="view-about" class="content-section" data-section="about">
+                <div class="glass-panel text-center py-5 px-4">
+
+                    <!-- Alert Header -->
+                    <div class="alert alert-info d-inline-flex align-items-center py-2 px-4 rounded-pill mb-4"
+                        role="alert">
+                        <i class="fa-solid fa-info-circle me-2"></i>
+                        About EduTrack Pro
+                    </div>
+
+                    <!-- Section Title -->
+                    <h4 class="fw-bold text-dark mb-4">EduTrack Pro Management System</h4>
+
+                    <!-- Image Centered & Responsive -->
+                    <img src="images/download.jpg" alt="EduTrack Pro" class="img-fluid mb-4"
+                        style="max-width: 500px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+
+                    <!-- Description Paragraphs -->
+                    <p class="text-muted mb-3">
+                        EduTrack Pro is a comprehensive student management system built to help educational institutions
+                        streamline their daily operations.
+                        From admissions, course modules, and attendance tracking to financial management, everything is
+                        integrated into one seamless platform.
+                    </p>
+
+                    <p class="text-muted mb-3">
+                        The system provides administrators with real-time insights into student performance, attendance
+                        trends, and pending fees.
+                        It is designed to reduce manual work and improve efficiency across departments.
+                    </p>
+
+                    <p class="text-muted mb-3">
+                        EduTrack Pro is suitable for colleges, universities, and training centers looking for a
+                        professional, easy-to-use, and secure student management solution.
+                    </p>
+
+                    <!-- Footer Info -->
+                    <p class="text-muted mb-0">
+                        <strong>Version:</strong> v2.1 Professional<br>
+                        <strong>Developed by:</strong> Eng: Aya Nabil / Abdallah<br>
+                        <strong>Contact:</strong> engabdallahmo@icloud.com
+                    </p>
+                </div>
+            </div>
+            <!-- ==================== CONTACT VIEW ==================== -->
+            <div id="view-contact" class="content-section" data-section="contact">
+                <div class="glass-panel text-center py-5 px-4">
+
+                    <!-- Alert Header -->
+                    <div class="alert alert-primary d-inline-flex align-items-center py-2 px-4 rounded-pill mb-4"
+                        role="alert">
+                        <i class="fa-solid fa-envelope me-2"></i>
+                        Contact Us
+                    </div>
+
+                    <!-- Section Title -->
+                    <h4 class="fw-bold text-dark mb-4">Get in Touch with EduTrack Pro Team</h4>
+
+                    <!-- Responsive Row -->
+                    <div class="row justify-content-center align-items-center">
+
+                        <!-- Contact Form -->
+                        <div class="col-lg-6 col-md-8 mb-4">
+                            <form id="contact-form" class="needs-validation" novalidate>
+                                <div class="mb-3 text-start">
+                                    <label for="contactName" class="form-label fw-bold">Full Name</label>
+                                    <input type="text" class="form-control" id="contactName"
+                                        placeholder="Enter your name" required>
+                                    <div class="invalid-feedback">Please enter your name.</div>
+                                </div>
+                                <div class="mb-3 text-start">
+                                    <label for="contactEmail" class="form-label fw-bold">Email Address</label>
+                                    <input type="email" class="form-control" id="contactEmail"
+                                        placeholder="Enter your email" required>
+                                    <div class="invalid-feedback">Please enter a valid email.</div>
+                                </div>
+                                <div class="mb-3 text-start">
+                                    <label for="contactMessage" class="form-label fw-bold">Message</label>
+                                    <textarea class="form-control" id="contactMessage" rows="5"
+                                        placeholder="Type your message..." required></textarea>
+                                    <div class="invalid-feedback">Please enter your message.</div>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold rounded-pill">
+                                    <i class="fa-solid fa-paper-plane me-2"></i> Send Message
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Contact Image -->
+                        <div class="col-lg-4 col-md-6 mb-4 text-center">
+                            <img src="images/download (1).jpg" alt="Contact Us" class="img-fluid rounded-4 shadow-sm"
+                                style="max-width: 150px;">
+                            <p class="text-muted mt-4 mb-0">
+                                <strong>Email:</strong> engabdallahmo@icloud.com<br>
+                                <strong>Phone:</strong> +201090768249<br>
+                                <strong>Address:</strong> 123 EduTrack St, Cairo, Egypt
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer Info -->
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!-- END VIEWS WRAPPER -->
+
+    </main>
+
+    <!-- Toasts -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="js/script1.js"></script>
+</body>
+
+</html>
